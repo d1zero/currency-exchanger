@@ -1,31 +1,28 @@
 package com.d1zero.currencyexchange.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import android.graphics.drawable.shapes.OvalShape
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.d1zero.currencyexchange.R
 import com.d1zero.currencyexchange.dto.Currency
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -36,63 +33,65 @@ fun CurrencyList(
     Box(
         Modifier
             .fillMaxWidth()
-            .padding(0.dp, 0.dp, 0.dp, 16.dp)
+            .padding(0.dp, 16.dp, 0.dp, 60.dp)
     ) {
 
         val listState = rememberLazyListState()
-        val scope = rememberCoroutineScope()
+        val favoriteCurrenciesState = rememberLazyListState()
 
-        LazyColumn(
-            state = listState,
-            contentPadding = PaddingValues(bottom = 80.dp),
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.surface),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val grouped = currencies.groupBy { it.name[0] }
 
-            grouped.forEach { (initial, currencies) ->
-                stickyHeader { CharacterHeader(Modifier.fillParentMaxWidth(), initial) }
+            if (currencies.any { currency -> currency.isFavorite }) {
+                Text(text = "Избранное")
+            }
+
+            LazyRow(
+                state = favoriteCurrenciesState,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 20.dp)
+            ) {
                 items(currencies) { currency ->
-                    CurrencyListItem(modifier.fillMaxWidth(), currency)
+                    if (currency.isFavorite) {
+                        Box(
+                            modifier = Modifier
+                                .padding(end = 10.dp)
+                                .clip(shape = RoundedCornerShape(20.dp))
+                                .background(Color.Red)
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .padding(10.dp), text = currency.name
+                            )
+                        }
+                    }
+                }
+            }
+
+            Text(text = "Доступные валюты")
+
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                val grouped = currencies.groupBy { it.name[0] }
+
+                grouped.forEach { (initial, currencies) ->
+                    stickyHeader { CharacterHeader(Modifier.fillParentMaxWidth(), initial) }
+                    items(currencies) { currency ->
+                        CurrencyListItem(modifier.fillMaxWidth(), currency)
+                    }
                 }
             }
         }
-
-        val showButton = listState.firstVisibleItemIndex > 0
-
-        AnimatedVisibility(
-            visible = showButton,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            ScrollToTopButton(onClick = {
-                scope.launch {
-                    listState.scrollToItem(0)
-                }
-            }, modifier = Modifier.padding(50.dp))
-        }
     }
 
-}
 
-@Composable
-fun ScrollToTopButton(onClick: () -> Unit, modifier: Modifier) {
-    Box(
-        modifier
-    ) {
-        Button(
-            onClick = { onClick() }, modifier = Modifier
-                .shadow(10.dp, shape = CircleShape)
-                .clip(shape = CircleShape)
-                .size(64.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.White,
-                contentColor = Color.Green
-            )
-        ) {
-            Icon(Icons.Filled.KeyboardArrowUp, "arrow up")
-        }
-    }
 }
 
 @Composable
@@ -100,7 +99,11 @@ fun CharacterHeader(
     modifier: Modifier = Modifier,
     char: Char
 ) {
-    Box(modifier.background(Color.DarkGray)) {
+    Box(
+        modifier
+            .background(Color.LightGray)
+            .padding(16.dp)
+    ) {
         Text(text = char.toString())
     }
 }
@@ -110,7 +113,18 @@ fun CurrencyListItem(
     modifier: Modifier = Modifier,
     currencyItem: Currency,
 ) {
-    Box(modifier) {
-        Text(text = currencyItem.name)
+    Box(
+        modifier
+            .background(Color.Transparent)
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = currencyItem.name)
+            Image(
+                painter = painterResource(id = R.drawable.star_border),
+                contentDescription = "star"
+            )
+        }
     }
 }

@@ -19,198 +19,242 @@ fun NavGraph(navHostController: NavHostController) {
                 currencies = listOf(
                     Currency(
                         1,
-                        "A"
-                    ),
-                    Currency(
-                        1,
-                        "RUB"
+                        "RUB",
+                        true
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        true
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        true
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        true
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        true
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        true
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        true
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        true
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ), Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                     Currency(
                         1,
-                        "RUB"
+                        "RUB",
+                        false
                     ),
                     Currency(
                         2,
-                        "USD"
+                        "USD",
+                        false
                     ),
                     Currency(
                         3,
-                        "EUR"
+                        "EUR",
+                        false
                     ),
                 )
             )

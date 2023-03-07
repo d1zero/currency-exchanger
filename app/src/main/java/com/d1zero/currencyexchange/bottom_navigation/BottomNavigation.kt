@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
@@ -23,29 +24,31 @@ fun BottomNavigation(navController: NavController) {
         backgroundColor = Color.White
     ) {
         val backStackEntry by navController.currentBackStackEntryAsState()
-        var currentRoute = backStackEntry?.destination?.route
+        var currentRoute = backStackEntry?.destination?.hierarchy
 
         listItems.forEach { item ->
-            BottomNavigationItem(
-                selected = currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route)
-                },
-                icon = {
-                    Icon(
-                        painterResource(id = item.iconId),
-                        contentDescription = "Icon"
-                    )
-                },
-                label = {
-                    Text(
-                        text = item.title,
-                        fontSize = 9.sp
-                    )
-                },
-                selectedContentColor = Color.Blue,
-                unselectedContentColor = Color.Gray
-            )
+            if (currentRoute != null) {
+                BottomNavigationItem(
+                    selected = currentRoute.any { it.route == item.route },
+                    onClick = {
+                        navController.navigate(item.route)
+                    },
+                    icon = {
+                        Icon(
+                            painterResource(id = item.iconId),
+                            contentDescription = "Icon"
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = item.title,
+                            fontSize = 9.sp
+                        )
+                    },
+                    selectedContentColor = Color.Blue,
+                    unselectedContentColor = Color.Gray
+                )
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.drawable.shapes.OvalShape
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,7 +29,8 @@ import com.d1zero.currencyexchange.dto.Currency
 @Composable
 fun CurrencyList(
     modifier: Modifier = Modifier,
-    currencies: List<Currency>
+    currencies: List<Currency>,
+    navigateToConverter: () -> Unit,
 ) {
     Box(
         Modifier
@@ -84,7 +86,7 @@ fun CurrencyList(
                 grouped.forEach { (initial, currencies) ->
                     stickyHeader { CharacterHeader(Modifier.fillParentMaxWidth(), initial) }
                     items(currencies) { currency ->
-                        CurrencyListItem(modifier.fillMaxWidth(), currency)
+                        CurrencyListItem(modifier.fillMaxWidth(), currency, navigateToConverter)
                     }
                 }
             }
@@ -108,18 +110,25 @@ fun CharacterHeader(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CurrencyListItem(
     modifier: Modifier = Modifier,
     currencyItem: Currency,
-) {
+    navigateToConverter: () -> Unit,
+    ) {
     Box(
         modifier
             .background(Color.Transparent)
             .padding(16.dp)
             .fillMaxWidth()
     ) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .combinedClickable(onClick = navigateToConverter),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(text = currencyItem.name)
             Image(
                 painter = painterResource(id = R.drawable.star_border),

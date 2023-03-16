@@ -8,4 +8,9 @@ sealed class SubNavScreen (
         route = "trade",
         title = "Обмен"
     )
+
+    object Filters : SubNavScreen(
+        route = "filters",
+        title = "Фильтры"
+    )
 }

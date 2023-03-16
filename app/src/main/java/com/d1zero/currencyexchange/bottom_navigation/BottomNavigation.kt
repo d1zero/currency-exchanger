@@ -24,7 +24,7 @@ fun BottomNavigation(navController: NavController) {
         backgroundColor = Color.White
     ) {
         val backStackEntry by navController.currentBackStackEntryAsState()
-        var currentRoute = backStackEntry?.destination?.hierarchy
+        val currentRoute = backStackEntry?.destination?.hierarchy
 
         listItems.forEach { item ->
             if (currentRoute != null) {

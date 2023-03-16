@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.d1zero.currencyexchange.R
 import com.d1zero.currencyexchange.dto.Currency
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CurrencyList(
     modifier: Modifier = Modifier,
@@ -29,7 +28,6 @@ fun CurrencyList(
             .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 60.dp)
     ) {
-
         val listState = rememberLazyListState()
 
         Column(
@@ -38,18 +36,15 @@ fun CurrencyList(
                 .background(MaterialTheme.colors.surface),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
             if (!currencies.none { it.isFavorite }) {
                 Text(text = "Избранные валюты")
-            }
-
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(currencies.filter { it.isFavorite }) { currency ->
-                    CurrencyListItem(modifier.fillMaxWidth(), currency, navigateToConverter)
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(currencies.filter { it.isFavorite }) { currency ->
+                        CurrencyListItem(modifier.fillMaxWidth(), currency, navigateToConverter)
+                    }
                 }
             }
 

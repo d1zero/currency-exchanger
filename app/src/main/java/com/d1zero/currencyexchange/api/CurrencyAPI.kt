@@ -1,10 +1,10 @@
 package com.d1zero.currencyexchange.api
 
 import com.d1zero.currencyexchange.dto.Currency
-import java.util.*
 
 interface CurrencyApi {
     fun getCurrencies(): List<Currency>
+    fun getCurrencyByID(id: Int): Currency
 }
 
 class CurrencyApiImpl : CurrencyApi {
@@ -28,5 +28,9 @@ class CurrencyApiImpl : CurrencyApi {
 
     override fun getCurrencies(): List<Currency> {
         return currencies
+    }
+
+    override fun getCurrencyByID(id: Int): Currency {
+        return currencies.filter { it.id == id }[0]
     }
 }

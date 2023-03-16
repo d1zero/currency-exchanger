@@ -1,5 +1,7 @@
 package com.d1zero.currencyexchange.bottom_navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,15 +13,12 @@ import com.d1zero.currencyexchange.screens.Graphic
 import com.d1zero.currencyexchange.screens.History
 import com.d1zero.currencyexchange.screens.Trade
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = BottomItem.Screen1.route) {
         mainGraph(navHostController)
-        composable(BottomItem.Screen2.route) {
-            History()
-        }
-        composable(BottomItem.Screen3.route) {
-            Graphic()
-        }
+        historyGraph(navHostController)
+        graphicsGraph(navHostController)
     }
 }

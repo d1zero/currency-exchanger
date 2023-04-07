@@ -1,6 +1,5 @@
 package com.d1zero.currencyexchange.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,9 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.d1zero.currencyexchange.dto.Currency
+import com.d1zero.currencyexchange.database.Currency
 import com.github.tehras.charts.line.LineChart
 import com.github.tehras.charts.line.LineChartData
 import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
@@ -27,7 +25,7 @@ import com.github.tehras.charts.line.renderer.xaxis.SimpleXAxisDrawer
 fun Graphic(
     currencies: List<Currency>,
 ) {
-    var currencyID = 1
+    var currencyID = 1L
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +75,7 @@ fun Graphic(
 }
 
 @Composable
-fun CurrencyCostGraph(id: Int) {
+fun CurrencyCostGraph(id: Long) {
     println(id)
     LineChart(
         linesChartData = listOf(

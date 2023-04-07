@@ -1,4 +1,4 @@
-package com.d1zero.currencyexchange.dto
+package com.d1zero.currencyexchange.database
 
 import java.time.LocalDateTime
 

@@ -1,6 +1,6 @@
 package com.d1zero.currencyexchange.api
 
-import com.d1zero.currencyexchange.dto.Currency
+import com.d1zero.currencyexchange.database.Currency
 
 interface CurrencyApi {
     fun getCurrencies(): List<Currency>
@@ -31,6 +31,6 @@ class CurrencyApiImpl : CurrencyApi {
     }
 
     override fun getCurrencyByID(id: Int): Currency {
-        return currencies.filter { it.id == id }[0]
+        return currencies.filter { it.id == id.toLong() }[0]
     }
 }

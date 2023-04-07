@@ -2,7 +2,7 @@ package com.d1zero.currencyexchange.api
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.d1zero.currencyexchange.dto.Transaction
+import com.d1zero.currencyexchange.database.Transaction
 import java.time.LocalDateTime
 import java.util.*
 

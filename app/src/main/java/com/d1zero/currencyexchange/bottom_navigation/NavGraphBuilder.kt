@@ -18,7 +18,6 @@ fun NavGraphBuilder.mainGraph(navController: NavController) {
         composable(route = "main") {
             CurrencyList(
                 modifier = Modifier,
-                currencies = currencies,
                 navigateToConverter = { navController.navigate(SubNavScreen.Trade.route) }
             )
         }

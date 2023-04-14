@@ -3,22 +3,29 @@ package com.d1zero.currencyexchange.bottom_navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.d1zero.currencyexchange.api.CurrencyApiImpl
 import com.d1zero.currencyexchange.api.TransactionApiImpl
+import com.d1zero.currencyexchange.database.CurrencyEvent
+import com.d1zero.currencyexchange.database.CurrencyState
 import com.d1zero.currencyexchange.screens.*
 
-fun NavGraphBuilder.mainGraph(navController: NavController) {
+fun NavGraphBuilder.mainGraph(
+    navController: NavController,
+    state: CurrencyState,
+    onEvent: (CurrencyEvent) -> Unit
+) {
     navigation(startDestination = "main", route = BottomItem.Screen1.route) {
-        val currencyApi = CurrencyApiImpl()
-        val currencies = currencyApi.getCurrencies()
         composable(route = "main") {
             CurrencyList(
                 modifier = Modifier,
-                navigateToConverter = { navController.navigate(SubNavScreen.Trade.route) }
+                navigateToConverter = { navController.navigate(SubNavScreen.Trade.route) },
+                onEvent = onEvent,
+                state = state
             )
         }
         composable(SubNavScreen.Trade.route) {

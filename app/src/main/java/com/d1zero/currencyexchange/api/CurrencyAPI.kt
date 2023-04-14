@@ -31,6 +31,6 @@ class CurrencyApiImpl : CurrencyApi {
     }
 
     override fun getCurrencyByID(id: Int): Currency {
-        return currencies.filter { it.id == id.toLong() }[0]
+        return currencies.filter { it.id == id }[0]
     }
 }

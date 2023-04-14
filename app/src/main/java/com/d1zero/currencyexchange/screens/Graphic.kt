@@ -25,7 +25,7 @@ import com.github.tehras.charts.line.renderer.xaxis.SimpleXAxisDrawer
 fun Graphic(
     currencies: List<Currency>,
 ) {
-    var currencyID = 1L
+    var currencyID = 1
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,8 +75,7 @@ fun Graphic(
 }
 
 @Composable
-fun CurrencyCostGraph(id: Long) {
-    println(id)
+fun CurrencyCostGraph(id: Int) {
     LineChart(
         linesChartData = listOf(
             LineChartData(

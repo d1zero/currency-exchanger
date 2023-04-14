@@ -10,31 +10,24 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.d1zero.currencyexchange.R
 import com.d1zero.currencyexchange.database.Currency
+import com.d1zero.currencyexchange.database.CurrencyEvent
+import com.d1zero.currencyexchange.database.CurrencyState
 import com.d1zero.currencyexchange.database.CurrencyViewModel
-import com.d1zero.currencyexchange.database.CurrencyViewModelFactory
 
 @Composable
 fun CurrencyList(
     modifier: Modifier = Modifier,
     navigateToConverter: () -> Unit,
+    state: CurrencyState,
+    onEvent: (CurrencyEvent) -> Unit
 ) {
-    val context = LocalContext.current
-    val mCurrencyViewModel: CurrencyViewModel = viewModel(
-        factory = CurrencyViewModelFactory(context.applicationContext as Application)
-    )
-
-    val currencies = mCurrencyViewModel.readAllData.observeAsState(listOf()).value
-
     Box(
         Modifier
             .fillMaxWidth()
@@ -51,11 +44,21 @@ fun CurrencyList(
 
             Text(text = "Доступные валюты")
 
-            CurrencyListRender(
-                currencies = currencies,
-                modifier = modifier,
-                navigateToConverter = navigateToConverter
-            )
+//            CurrencyListRender(
+//                currencies = currencies,
+//                modifier = modifier,
+//                navigateToConverter = navigateToConverter
+//            )
+            Text(text = "Избранные валюты")
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(state.currencies) { currency ->
+                    Text(text = currency.name)
+//                    CurrencyListItem(modifier.fillMaxWidth(), currency, navigateToConverter)
+                }
+
+            }
         }
     }
 }
@@ -108,7 +111,8 @@ fun CurrencyListItem(
                     contentDescription = "star",
                     modifier = Modifier
                         .clickable {
-                            Toast.makeText(context, "Not favorite now", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Not favorite now", Toast.LENGTH_SHORT)
+                                .show()
                         }
                 )
             } else {

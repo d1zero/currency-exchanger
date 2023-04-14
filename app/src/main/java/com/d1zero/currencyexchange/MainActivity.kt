@@ -45,22 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CurrencyExchangeTheme {
                 val state by viewModel.state.collectAsState()
-                val navController = rememberNavController()
-//                Scaffold(bottomBar = { BottomNavigation(navController = navController) }) {
-//                    NavGraph(
-//                        navHostController = navController,
-//                        state = state,
-//                        onEvent = viewModel::onEvent
-//                    )
-//                }
-                Scaffold(bottomBar = { BottomNavigation(navController = navController) }) {
-                    it.calculateBottomPadding()
-                    NavGraph(
-                        navHostController = navController,
-                        state = state,
-                        onEvent = viewModel::onEvent
-                    )
-                }
+                MainScreen(state = state, onEvent = viewModel::onEvent)
             }
         }
     }

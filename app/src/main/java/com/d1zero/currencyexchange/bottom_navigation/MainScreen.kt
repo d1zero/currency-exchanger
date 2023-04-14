@@ -16,7 +16,6 @@ fun MainScreen(
     state: CurrencyState,
     onEvent: (CurrencyEvent) -> Unit
 ) {
-
     val navController = rememberNavController()
     Scaffold(bottomBar = { BottomNavigation(navController = navController) }) {
         NavGraph(navHostController = navController, state = state, onEvent = onEvent)

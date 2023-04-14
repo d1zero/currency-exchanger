@@ -1,55 +1,65 @@
 package com.d1zero.currencyexchange.database
 
-import android.app.Application
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+class CurrencyViewModel(private val dao: CurrencyDao) : ViewModel() {
+    private val _currencies = dao.getCurrencies().stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(), emptyList(),
+    )
+    private val _state = MutableStateFlow(CurrencyState())
 
-class CurrencyViewModel(application: Application) : AndroidViewModel(application) {
+    val state = combine(_state, _currencies) { state, currencies ->
+        state.copy(
+            currencies = currencies
+        )
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000), CurrencyState()
+    )
 
-    val readAllData: LiveData<List<Currency>>
-    private val repository: CurrencyRepository
+    fun onEvent(event: CurrencyEvent) {
+        when (event) {
+            is CurrencyEvent.DeleteCurrency -> {
+                viewModelScope.launch {
+                    dao.deleteCurrency(event.currency)
+                }
+            }
 
-    init {
-        val currencyDao = CurrencyDatabase.getInstance(application).currencyDao()
-        repository = CurrencyRepository(currencyDao)
-        readAllData = repository.readAllData
-    }
+            CurrencyEvent.SaveCurrency -> {
+                val currencyName = state.value.currencyName
+                if (currencyName.isBlank()) {
+                    return
+                }
 
-    fun addCurrency(currencyItem: Currency) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addCurrency(currencyItem)
+                val currency = Currency(
+                    name = currencyName,
+                    isFavorite = false
+                )
+                viewModelScope.launch {
+                    dao.upsertCurrency(currency)
+                }
+                _state.update {
+                    it.copy(
+                        currencyName = ""
+                    )
+                }
+            }
+
+            is CurrencyEvent.SetCurrencyName -> {
+                _state.update {
+                    it.copy(
+                        currencyName = event.currencyName
+                    )
+                }
+            }
         }
-    }
-
-    fun updateCurrency(currencyItem: Currency) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateCurrency(currencyItem = currencyItem)
-        }
-    }
-
-    fun deleteCurrency(currencyItem: Currency) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteCurrency(currencyItem = currencyItem)
-        }
-    }
-
-    fun deleteAllCurrencies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteCurrencies()
-        }
-    }
-}
-
-class CurrencyViewModelFactory(
-    private val application: Application
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        if (modelClass.isAssignableFrom(CurrencyViewModel::class.java)) {
-            return CurrencyViewModel(application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
